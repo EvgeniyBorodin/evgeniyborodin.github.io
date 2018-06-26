@@ -1,0 +1,39 @@
+.footer{
+    width: 880px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 80px;
+}
+
+.footer__company-contacts{
+    display: flex;
+    flex-direction: column;
+    margin-right: 40px;
+}
+
+.footer__company-contacts-address{
+    font-family: "ProximaNova-Regular";
+    font-size: 10pt;
+    color: #ffffff;
+}
+
+.footer__company-contacts-address_font-style-semibold{
+    font-family: "ProximaNova-Semibold";
+}
+
+.footer__company-contacts-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.footer__company-contacts img{
+    width: 20px;
+    cursor: pointer;
+}
+
+.footer__developer-contact img{
+    width: 40px;
+}

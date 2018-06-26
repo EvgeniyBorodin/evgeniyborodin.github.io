@@ -1,0 +1,184 @@
+<div class="request">
+
+  <div class="request__logo">
+    <img src="../../assets/images/logo.png"/>
+  </div>
+
+  <div class="request__form-container">
+    <div class="request-form">
+      <div class="request-form__title">
+        <div *ngIf="isPersonalInfo">Камертон — один из ведущих центров дополнительного образования Сургута</div>
+        <div *ngIf="!isPersonalInfo">Информация о детях</div>
+      </div>
+
+      <div class="request-form__description">
+          <div *ngIf="isPersonalInfo">
+              Мы обучаем детей и подростков хореографии, вокалу и театральному искусству. 
+              Чтобы записать ребенка в студию, ответьте на несколько вопросов и отправьте заявку.
+          </div>
+          <div *ngIf="!isPersonalInfo">
+              Укажите <span class="request-form__description_font-style_italic">количество ваших детей</span>, которые хотят заниматься,
+              <span class="request-form__description_font-style_italic">возраст</span>
+              <br/>
+              и <span class="request-form__description_font-style_italic">выберите студию</span>.
+          </div>
+        </div>
+
+        <form [formGroup]="personInfoFrom" *ngIf="isPersonalInfo && !isFinish">
+          <div class="custom-row">
+              <div class="custom-form-group">
+                  <label for="person-info-name">Ваше имя и фамилия</label>
+                  <input id="person-info-name" formControlName="name" class="custom-form-control"
+                  [ngClass]="{'custom-form-control-error': isControlInvalid('name')}"
+                    required placeholder="Имя, Фамилия"
+                    [(ngModel)]="personInfo.name">
+           
+                  <div *ngIf="isControlInvalid('name')" class="custom-form-control-error-text">
+                    Необходимо указать имя и фамилию!
+                  </div>
+
+              </div>
+        
+              <div class="custom-form-group">
+                  <label for="person-info-email">Электронная почта</label>
+                  <input id="person-info-email" type="email" formControlName="email" class="custom-form-control"
+                    required placeholder="your-mail@hellokamerton.ru" [ngClass]="{'custom-form-control-error': isControlInvalid('email')}"
+                    [(ngModel)]="personInfo.email">
+           
+                  <div *ngIf="isControlInvalid('email')" class="custom-form-control-error-text">
+                    Вы допустили ошибку!
+                  </div>
+              </div>
+          </div>
+      
+            <div class="custom-form-group">
+                <label for="person-info-phone">Контактный телефон</label>
+                <input id="person-info-phone" formControlName="phone" class="custom-form-control"
+                [ngClass]="{'custom-form-control-error': isControlInvalid('phone')}"
+                  required placeholder="9XX XXX-XX-XX"
+                  [(ngModel)]="personInfo.phone">
+         
+                <div *ngIf="isControlInvalid('phone')" class="custom-form-control-error-text">
+                  Укажите номер!
+                </div>
+            </div>
+      
+        </form>
+
+        <div class="children-info" *ngIf="!isPersonalInfo && !isFinish">
+            <div class="custom-form-group">
+              <div class="custom-form-flex-container custom-form-flex-container_left_align">
+                  <label class="custom-form-group_free-right">Количество детей:</label>
+                  <div >
+                      <div class="children-info__count-item" [ngClass]="{'children-info__count-item_active': childrenInfo.count===1}" (click)="changeChildrenCount(1)">1</div>
+                      <div class="children-info__count-item" [ngClass]="{'children-info__count-item_active': childrenInfo.count===2}" (click)="changeChildrenCount(2)">2</div>
+                      <div class="children-info__count-item" [ngClass]="{'children-info__count-item_active': childrenInfo.count===3}" (click)="changeChildrenCount(3)">3</div>
+                  </div>
+              </div>
+              <form [formGroup]="childrenInfoForm" class="children-info-form">
+                  <div *ngIf="childrenInfo.count >= 1" class="children-info__item custom-row">
+                      <div class="children-info__item-age">
+                          <div class="children-info__item-age_balance">
+                              <span>
+                                  1. Возраст:
+                              </span>
+                              <input type="number" min="1" max="18" formControlName="firstChildAge" class="custom-form-control custom-form-control_inline custom-form-control_small" [(ngModel)]="firstChild.age"
+                              [ngClass]="{'custom-form-control-error': isChildControlInvalid('firstChildAge')}"/>
+                          </div>
+                          
+                          <div *ngIf="isChildControlValidRequired('firstChildAge')" class="custom-form-control-error-text custom-form-control-error-text_italic">
+                            *Заполните возраст!
+                          </div>
+                      </div>
+                      <div class="children-info__item-studio">
+                        <span>
+                          Студия:
+                        </span>
+                        <select formControlName="firstChildStudio" class="custom-select custom-form-control custom-form-control_inline" [(ngModel)]="firstChild.studio">
+                          <option value="Театральная студия">Театральная студия</option>
+                          <option value="Студия вокала">Студия вокала</option>
+                          <option value="Современная хореография">Современная хореография</option>
+                          <option value="Спортивные бальные танцы">Спортивные бальные танцы</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div *ngIf="childrenInfo.count >= 2" class="children-info__item custom-row">
+                        <div class="children-info__item-age">
+                            <div class="children-info__item-age_balance">
+                                <span>
+                                    2. Возраст:
+                                </span>
+                                <input type="number" min="1" max="18" formControlName="secondChildAge" class="custom-form-control custom-form-control_inline custom-form-control_small" [(ngModel)]="secondChild.age"
+                                [ngClass]="{'custom-form-control-error': isChildControlInvalid('secondChildAge')}"/>
+                            </div>
+                            
+                            <div *ngIf="isChildControlValidRequired('secondChildAge')" class="custom-form-control-error-text custom-form-control-error-text_italic">
+                              *Заполните возраст!
+                            </div>
+                        </div>
+                        <div class="children-info__item-studio">
+                          <span>
+                            Студия:
+                          </span>
+                          <select formControlName="secondChildStudio" class="custom-form-control custom-form-control_inline" [(ngModel)]="secondChild.studio">
+                            <option value="Театральная студия">Театральная студия</option>
+                            <option value="Студия вокала">Студия вокала</option>
+                            <option value="Современная хореография">Современная хореография</option>
+                            <option value="Спортивные бальные танцы">Спортивные бальные танцы</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div *ngIf="childrenInfo.count===3" class="children-info__item custom-row custom-row_small-margin">
+                          <div class="children-info__item-age">
+                            <div class="children-info__item-age_balance">
+                                <span>
+                                    3. Возраст:
+                                </span>
+                                <input type="number" min="1" max="18" formControlName="thirdChildAge" class="custom-form-control custom-form-control_inline custom-form-control_small" [(ngModel)]="thirdChild.age"
+                                [ngClass]="{'custom-form-control-error': isChildControlInvalid('thirdChildAge')}"/>
+                            </div>
+                            <div *ngIf="isChildControlValidRequired('thirdChildAge')" class="custom-form-control-error-text custom-form-control-error-text_italic">
+                                *Заполните возраст!
+                              </div>
+                            </div>
+                          <div class="children-info__item-studio">
+                            <span>
+                              Студия:
+                            </span>
+                            <select formControlName="thirdChildStudio" class="custom-form-control custom-form-control_inline" [(ngModel)]="thirdChild.studio">
+                              <option value="Театральная студия">Театральная студия</option>
+                              <option value="Студия вокала">Студия вокала</option>
+                              <option value="Современная хореография">Современная хореография</option>
+                              <option value="Спортивные бальные танцы">Спортивные бальные танцы</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div *ngIf="isChildControlValidBoundAge('firstChildAge') || isChildControlValidBoundAge('secondChildAge') || isChildControlValidBoundAge('thirdChildAge')" class="custom-form-control-error-text custom-form-control-error-text_italic">
+                          *Ваш ребёнок уже не ребёнок!
+                        </div>
+                        <div *ngIf="isChildControlValidAge('firstChildAge') || isChildControlValidAge('secondChildAge') || isChildControlValidAge('thirdChildAge')" class="custom-form-control-error-text custom-form-control-error-text_italic">
+                            *Мы принимаем детей от 3-х до 17 лет!
+                          </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+  </div>
+
+  <div class="navigation">
+      <div *ngIf="!isPersonalInfo" class="navigation__btn-back" (click)="back()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 93.37 59"><defs><style>.cls-1{fill:none;stroke:#fcee21;stroke-width:4px;}.cls-2{fill:#fff;}</style></defs><g id="Слой_2" data-name="Слой 2"><g id="text_1"><polygon class="cls-1" points="22.84 57.5 91.87 57.5 91.87 1.5 22.84 1.5 1.87 29.5 22.84 57.5"/><polygon class="cls-2" points="69.17 18.56 67.05 16.44 56.11 27.38 45.17 16.44 43.05 18.56 53.99 29.5 43.05 40.44 45.17 42.56 56.11 31.62 67.05 42.56 69.17 40.44 58.24 29.5 69.17 18.56"/></g></g></svg>
+        </div>
+    <div class="navigation__btn-next" (click)="nextAction()">
+      <span class="navigation__btn-text">Далее</span>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 335.37 59"><defs><style>.cls-1{fill:none;stroke:#fcee21;stroke-width:4px;}</style></defs><g><polygon class="cls-1" points="312.79 57.5 1.5 57.5 1.5 1.5 312.79 1.5 333.5 29.5 312.79 57.5"/></g></svg>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+
+</div>
